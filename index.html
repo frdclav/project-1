@@ -10,6 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     </head>
     <body>
         <header>Netflix and Chill</header>
@@ -35,27 +36,37 @@
             <div id="movie-selection">
 
                 <h1>What are you in the mood for?</h1>
-                <img src="" class="mood-one">
-                <img src="" class="mood-two">
-                <img src="" class="mood-three">
-                <img src="" class="mood-four">
-                <img src="" class="mood-five">
+
+                <img src="assets/images/thumb.png" class="mood-one">
+                <img src="assets/images/thumb.png" class="mood-two">
+                <img src="assets/images/thumb.png" class="mood-three">
+                <img src="assets/images/thumb.png" class="mood-four">
+                <img src="assets/images/thumb.png" class="mood-five">
 
             </div>
 
             <div id="drink-selection">
+                <h1>What You Think? Pick A Drink!</h1>
+                <button class="no-alcohol">Find A Fun Alcohol Free Drink</button>
+
+                <form>
+                    <input type="text" class="alcohol" ><br>
+                    <input type="submit" class="hide" value="Search By Alcohol Type">
+                </form>
                 
 
 
             </div>
 
             <div id="choices">
+                <h1>Chill With These Choices</h1>
+                <div class="movie-options"></div>
+                <div class="drink-options"></div>
 
-                
             </div>
         
          <!-- jQuery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="javascript/app.js" async defer></script>
+        <script src="assets/javascript/app.js" async defer></script>
     </body>
 </html>
