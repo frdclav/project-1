@@ -1,14 +1,18 @@
+//using to distinguish between legal drinkers and underages users
 var count=0;
+
+//setting mood with click event later
 var mood;
+
 //to hide divs when page is first accessed
-function hide(){
+function hideMe(){
     $("#of-age").hide();
     $("#movie-selection").hide();
     $("#drink-selection").hide();
     $("#choices").hide();
 }
 
-hide();
+hideMe();
 
 // goes to 21+ question after get started is clicked
 $("#click-me").on("click", function(event){
@@ -82,7 +86,7 @@ $(".mood-five").on("click", function(event){
 });
 
 //turns user input into value for api search later
-alcoholType=$(".alcohol").val().trim();
+var alcoholType;
 
 $(".no-alcohol").on("click", function(event){
     $("#drink-selection").hide();
@@ -90,13 +94,25 @@ $(".no-alcohol").on("click", function(event){
     //pick random non-alcoholic drinks for choices div via api
 });
 
-$(".alcohol").on("click", function(event){
-    // if(alcoholType){
-    //     Swal.fire('Please Select an Alcohol Type');
-    // }
+$(".hide").on("click", function(event){
+
+    event.preventDefault();
+
+    alcoholType=$(".alcohol").val().trim();
     console.log(alcoholType);
+
+    //checking to see if user entered something in form
+    if(!alcoholType){
+        Swal.fire('Please Enter an Alcohol Type')
+    }
+
+
     $("#drink-selection").hide();
     $("#choices").show();
     
     //pick random alcoholic drinks for choices div via api with alcoholType var
 });
+
+
+
+
