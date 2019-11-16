@@ -102,18 +102,34 @@
         <button class="no-alcohol">Find A Fun Alcohol Free Drink</button>
 
         <form>
-            <input type="text" class="alcohol"><br>
-            <button type="submit" class="hide">Search By Alcohol Type</button>
+            <input type="text" id="ingredientItem" class="alcohol"><br>
+            <button type="submit" id= "ingredientButton" class="hide">Search By Alcohol Type</button>
         </form>
 
 
 
     </div>
 
+    
+
     <div id="choices">
         <h1>Chill With These Choices</h1>
+
+        <h2 id="drinkType"></h2>
+        <ul id="drinkNames"></ul>
+
+        
         <div class="movie-options"></div>
-        <div class="drink-options"></div>
+        <div class="drink-options">
+
+            <div class="drinkinfo">
+                <h3 class="drinkName"></h3>
+                <img class="drinkimage" src="" />
+                <ul class="drinkIngredients">
+                </ul>
+                <p class="drinkInstructions"></p>
+            </div>
+        </div>
 
     </div>
    
