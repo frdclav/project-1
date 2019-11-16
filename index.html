@@ -2,71 +2,77 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Netflix and Chill</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    </head>
-    <body>
-        <header>Netflix and Chill</header>
-            
-            <div id="welcome">
-                <h1>Welcome to Netfilx and Chill</h1>
-                     <p>Picture to make it look pretty and description of what app will do</p> 
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
-                            <p>STYLE ME</p>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Netflix and Chill</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
 
-                            <button id="click-me">Get Started</button>
+<body>
+    <header>Netflix and Chill</header>
 
-            </div>
+    <div id="welcome">
+        <h1>Welcome to Netfilx and Chill</h1>
+        <p>Picture to make it look pretty and description of what app will do</p>
 
-            <div id="of-age">
-                <h1>Are you 21 or older?</h1>
-                <button id="yes">yes</button>
-                <button id="no">no</button>
+        <p>STYLE ME</p>
 
+        <button id="click-me">Get Started</button>
 
-            </div>
+    </div>
 
-            <div id="movie-selection">
-
-                <h1>What are you in the mood for?</h1>
-
-                <img src="assets/images/thumb.png" class="mood-one">
-                <img src="assets/images/thumb.png" class="mood-two">
-                <img src="assets/images/thumb.png" class="mood-three">
-                <img src="assets/images/thumb.png" class="mood-four">
-                <img src="assets/images/thumb.png" class="mood-five">
-
-            </div>
-
-            <div id="drink-selection">
-                <h1>What You Think? Pick A Drink!</h1>
-                <button class="no-alcohol">Find A Fun Alcohol Free Drink</button>
-
-                <form>
-                    <input type="text" class="alcohol"><br>
-                    <button type="submit" class="hide">Search By Alcohol Type</button>
-                </form>
-                
+    <div id="of-age">
+        <h1>Are you 21 or older?</h1>
+        <button id="yes">yes</button>
+        <button id="no">no</button>
 
 
-            </div>
+    </div>
 
-            <div id="choices">
-                <h1>Chill With These Choices</h1>
-                <div class="movie-options"></div>
-                <div class="drink-options"></div>
+    <div id="movie-selection">
 
-            </div>
-        
-         <!-- jQuery -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="assets/javascript/app.js" async defer></script>
-    </body>
+        <h1>What are you in the mood for?</h1>
+
+        <!-- <img src="assets/images/thumb.png" class="mood-one">
+        <img src="assets/images/thumb.png" class="mood-two">
+        <img src="assets/images/thumb.png" class="mood-three">
+        <img src="assets/images/thumb.png" class="mood-four">
+        <img src="assets/images/thumb.png" class="mood-five"> -->
+
+    </div>
+
+    <div id="drink-selection">
+        <h1>What You Think? Pick A Drink!</h1>
+        <button class="no-alcohol">Find A Fun Alcohol Free Drink</button>
+
+        <form>
+            <input type="text" class="alcohol"><br>
+            <button type="submit" class="hide">Search By Alcohol Type</button>
+        </form>
+
+
+
+    </div>
+
+    <div id="choices">
+        <h1>Chill With These Choices</h1>
+        <div class="movie-options"></div>
+        <div class="drink-options"></div>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/apikeys.js" async defer></script>
+    <script src="assets/javascript/app.js" async defer></script>
+</body>
+
 </html>
