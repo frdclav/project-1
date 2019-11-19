@@ -7,7 +7,7 @@ function unogsQuery(searchTerm, genreId, vType, page) {
     this.startNetflixRating = '0' //setting this to something static
     this.endNetflixRating = '5' //setting this to something static
     this.startImdbRating = '0' //setting this to something static
-    this.endImdbRating = '10'//setting this to something static
+    this.endImdbRating = '10' //setting this to something static
     this.genreId = genreId
     this.vType = vType
     this.audioType = 'English' //setting this to something static
@@ -17,7 +17,7 @@ function unogsQuery(searchTerm, genreId, vType, page) {
     this.page = page
 
     // method to return query url
-    this.generateUrl = function () {
+    this.generateUrl = function() {
         const first_part_of_url = 'https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi?q='
         const delim = '-!'
         const end = '&t=ns&cl=all&st=adv&ob=Relevance&sa=and&p='
@@ -45,18 +45,18 @@ function unogsGetResults(term, genre_id, vType) {
         }
     };
 
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        let resArr = [];
-        for (let index = 0; index < 5; index++) {
-            const element = response.ITEMS[index];
-            console.log('item', index, element)
-            resArr.push(element)
+    $.ajax(settings).done(function(response) {
+            console.log(response);
+            let resArr = [];
+            for (let index = 0; index < 5; index++) {
+                const element = response.ITEMS[index];
+                console.log('item', index, element)
+                resArr.push(element)
+            }
+            resArr.forEach(element => {
+                addNetflixResult(element)
+            })
         }
-        resArr.forEach(element => {
-            addNetflixResult(element)
-        })
-    }
 
     )
 };
@@ -116,123 +116,123 @@ const listOfCategories = [funny, romantic, dramatic, informative, exciting, thri
 
 
 // ================ start cocktail api stuff ========================
-function callAPI(){
+function callAPI() {
     var ingredient = $("#ingredientItem").val();
     console.log(ingredient);
-    var apiURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i="+ingredient+"";
+    var apiURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingredient + "";
     $('ul').empty('li')
-  
+
     // console.log("click")
-  
+
     $.ajax({
-      url :apiURL,
-      //this is what will happen when a user request is a success
-      success:function(res){
-        // console.log(res);
+        url: apiURL,
+        //this is what will happen when a user request is a success
+        success: function(res) {
+            // console.log(res);
 
-        //this capitalizes the first letter and puts the name of alcohol on page
-        $("#drinkType").html(ingredient.substr(0,1).toUpperCase()+ingredient.substr(1));
+            //this capitalizes the first letter and puts the name of alcohol on page
+            $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
 
-        //this lists the five cocktails of the type of alcohol
-        $('#drinkNames').append("<li data-drinkid='"+ res.drinks[0].idDrink +"'>"+res.drinks[0].strDrink+"</li>");
-        $('#drinkNames').append("<li data-drinkid='"+ res.drinks[1].idDrink +"'>"+res.drinks[1].strDrink+"</li>");
-        $('#drinkNames').append("<li data-drinkid='"+ res.drinks[2].idDrink +"'>"+res.drinks[2].strDrink+"</li>");
-        $('#drinkNames').append("<li data-drinkid='"+ res.drinks[3].idDrink +"'>"+res.drinks[3].strDrink+"</li>");
-        $('#drinkNames').append("<li data-drinkid='"+ res.drinks[4].idDrink +"'>"+res.drinks[4].strDrink+"</li>");
-       
-  
-        $('li').on('click', function(){
-            var drinkId = $(this).data('drinkid');
-            // console.log(drinkId);
+            //this lists the five cocktails of the type of alcohol
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[2].idDrink + "'>" + res.drinks[2].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[3].idDrink + "'>" + res.drinks[3].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[4].idDrink + "'>" + res.drinks[4].strDrink + "</li>");
 
-            var ingredientsApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i="+drinkId+"";
 
-            $.ajax({
-                url :ingredientsApiUrl,
-                //this is what will happen when a user request is a success
-                success:function(res){
-                    console.log(res);
+            $('li').on('click', function() {
+                var drinkId = $(this).data('drinkid');
+                // console.log(drinkId);
 
-                    $('.drinkName').html(res.drinks[0].strDrink);
-                    $('.drinkimage').attr('src',res.drinks[0].strDrinkThumb);
+                var ingredientsApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + drinkId + "";
 
-                    $('.drinkIngredients').empty();
+                $.ajax({
+                    url: ingredientsApiUrl,
+                    //this is what will happen when a user request is a success
+                    success: function(res) {
+                        console.log(res);
 
-                    // for (let i = 1; i <= 1; i++) {
-                    //     console.log('strIngredient'+[i]);
-                    //     var ingredientString = 'strIngredient'+[i];
+                        $('.drinkName').html(res.drinks[0].strDrink);
+                        $('.drinkimage').attr('src', res.drinks[0].strDrinkThumb);
 
-                    //     function getProp(object, value) { 
-                    //         console.log('object:', object);
-                    //         console.log('value:', value);
-                    //         return object.value;
-                    //     }
-                  
-                    //     var ans = getProp(res.drinks[0], ingredientString); 
-                          
-                    //     console.log(ans); 
-                        
-                    // }
+                        $('.drinkIngredients').empty();
 
-                    if(res.drinks[0].strIngredient1 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient1+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure1+"</span></li>");
+                        // for (let i = 1; i <= 1; i++) {
+                        //     console.log('strIngredient'+[i]);
+                        //     var ingredientString = 'strIngredient'+[i];
+
+                        //     function getProp(object, value) { 
+                        //         console.log('object:', object);
+                        //         console.log('value:', value);
+                        //         return object.value;
+                        //     }
+
+                        //     var ans = getProp(res.drinks[0], ingredientString); 
+
+                        //     console.log(ans); 
+
+                        // }
+
+                        if (res.drinks[0].strIngredient1 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient1 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure1 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient2 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient2 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure2 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient3 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient3 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure3 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient4 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient4 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure4 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient5 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient5 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure5 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient6 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient6 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure6 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient7 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient7 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure7 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient8 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient8 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure8 + "</span></li>");
+                        }
+
+
+
+
+
+
+
+
+                        $('.drinkInstructions').html(res.drinks[0].strInstructions);
+
+
+                    },
+                    error: function(invalid) {
+                        console.log(invalid)
                     }
-
-                    if(res.drinks[0].strIngredient2 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient2+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure2+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient3 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient3+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure3+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient4 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient4+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure4+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient5 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient5+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure5+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient6 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient6+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure6+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient7 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient7+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure7+"</span></li>");
-                    }
-
-                    if(res.drinks[0].strIngredient8 != null){
-                        $('.drinkIngredients').append("<li><span class='strIngredient'>"+res.drinks[0].strIngredient8+"</span> - <span class='strMeasure'>"+res.drinks[0].strMeasure8+"</span></li>");
-                    }
-
-
-
-
-
-
-
-
-                    $('.drinkInstructions').html(res.drinks[0].strInstructions);
-                    
-
-                },
-                error:function(invalid){
-                  console.log(invalid)
-                }
+                });
             });
-        });
-  
-        
-      },
-      error:function(invalid){
-        console.log(invalid)
-      }
+
+
+        },
+        error: function(invalid) {
+            console.log(invalid)
+        }
     });
 }
 
 
-$('button').on ('click', function(){
+$('button').on('click', function() {
     callAPI();
 });
 
@@ -261,21 +261,21 @@ function hideMe() {
 hideMe();
 
 // goes to 21+ question after get started is clicked
-$("#click-me").on("click", function (event) {
+$("#click-me").on("click", function(event) {
 
     $("#welcome").hide();
     $("#of-age").show();
 
 });
 
-$("#yes").on("click", function (event) {
+$("#yes").on("click", function(event) {
     count++
     $("#of-age").hide();
     $("#movie-selection").show();
 });
 
 
-$("#no").on("click", function (event) {
+$("#no").on("click", function(event) {
     $("#of-age").hide();
     $("#movie-selection").show();
 })
@@ -286,11 +286,12 @@ $("#no").on("click", function (event) {
 function showMoods() {
     listOfCategories.forEach(element => {
         const newDiv = $("<div>");
-        const newTitle = $("<h1>");
-        newDiv.addClass('mood');
+        const newTitle = $("<a>");
+        newDiv.addClass('mood center-align row m2');
+        newTitle.addClass('waves-effect waves-light btn center-align');
         newTitle.text(element[1]);
         newDiv.attr('data-genre-id', element[0]);
-        newDiv.attr('style', 'border:1px solid;width:200px');
+        // newDiv.attr('style', 'border:1px solid;width:200px');
 
         newDiv.append(newTitle);
         $("#movie-selection").append(newDiv);
@@ -306,14 +307,17 @@ function addNetflixResult(nf_obj) {
     const newTitle = $("<h3>")
     const newImage = $("<img>")
     const newDescription = $("<p>")
+    newDiv.addClass('row container center-align m2')
+    newDiv.attr('style', 'margin-left: auto !important;margin-right: auto !important')
     newTitle.text(nf_obj.title)
     newImage.attr('src', nf_obj.image)
+    newImage.addClass('left')
     newDescription.text(nf_obj.synopsis)
     newDiv.append(newTitle, newImage, newDescription)
     $(".movie-options").append(newDiv)
 }
 // mood listener
-$(document.body).on('click', '.mood', function () {
+$(document.body).on('click', '.mood', function() {
     $("#movie-selection").hide();
     $("#drink-selection").show();
     if (count === 0) {
@@ -329,13 +333,13 @@ $(document.body).on('click', '.mood', function () {
 //turns user input into value for api search later
 var alcoholType;
 
-$(".no-alcohol").on("click", function (event) {
+$(".no-alcohol").on("click", function(event) {
     $("#drink-selection").hide();
     $("#choices").show();
     //pick random non-alcoholic drinks for choices div via api
 });
 
-$(".hide").on("click", function (event) {
+$(".hide").on("click", function(event) {
 
     event.preventDefault();
 
@@ -356,5 +360,3 @@ $(".hide").on("click", function (event) {
 
 
 // ================ END UI ========================
-
-
