@@ -448,7 +448,7 @@ $(document.body).on('click', '.mood', function() {
     $("#drink-selection").show();
     if (count === 0) {
         $(".alcohol").hide();
-        $(".alc-search").hide();
+        $(".alc-search'").hide();
     }
     mood = $(this).attr('data-genre-id');
     console.log('youve clicked', mood)
