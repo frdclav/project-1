@@ -128,7 +128,7 @@ function callAPI() {
         url: apiURL,
         //this is what will happen when a user request is a success
         success: function(res) {
-            // console.log(res);
+            console.log(res);
 
             //this capitalizes the first letter and puts the name of alcohol on page
             $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
@@ -232,7 +232,8 @@ function callAPI() {
 }
 
 
-$('button').on('click', function() {
+$('.alc-search').on('click', function() {
+    // console.log('alc-search')
     callAPI();
 });
 
@@ -339,7 +340,7 @@ $(".no-alcohol").on("click", function(event) {
     //pick random non-alcoholic drinks for choices div via api
 });
 
-$(".hide").on("click", function(event) {
+$(".alc-search").on("click", function(event) {
 
     event.preventDefault();
 
