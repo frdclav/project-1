@@ -133,6 +133,7 @@ function callAPI() {
             //this capitalizes the first letter and puts the name of alcohol on page
             $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
 
+           
             //this lists the five cocktails of the type of alcohol
             $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
             $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
@@ -238,6 +239,130 @@ $('.alc-search').on('click', function() {
 });
 
 
+// ====non alc
+function callAPINonAlc() {
+    // var ingredient = $("#ingredientItem").val();
+    // console.log(ingredient);
+    var apiURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic" ;
+    $('ul').empty('li')
+
+    // console.log("click")
+
+    $.ajax({
+        url: apiURL,
+        //this is what will happen when a user request is a success
+        success: function(res) {
+            console.log(res);
+
+            //this capitalizes the first letter and puts the name of alcohol on page
+            // $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
+
+           
+            //this lists the five cocktails of the type of alcohol
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[2].idDrink + "'>" + res.drinks[2].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[3].idDrink + "'>" + res.drinks[3].strDrink + "</li>");
+            $('#drinkNames').append("<li data-drinkid='" + res.drinks[4].idDrink + "'>" + res.drinks[4].strDrink + "</li>");
+
+
+            $('li').on('click', function() {
+                var drinkId = $(this).data('drinkid');
+                // console.log(drinkId);
+
+                var ingredientsApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + drinkId + "";
+
+                $.ajax({
+                    url: ingredientsApiUrl,
+                    //this is what will happen when a user request is a success
+                    success: function(res) {
+                        console.log(res);
+
+                        $('.drinkName').html(res.drinks[0].strDrink);
+                        $('.drinkimage').attr('src', res.drinks[0].strDrinkThumb);
+
+                        $('.drinkIngredients').empty();
+
+                        // for (let i = 1; i <= 1; i++) {
+                        //     console.log('strIngredient'+[i]);
+                        //     var ingredientString = 'strIngredient'+[i];
+
+                        //     function getProp(object, value) { 
+                        //         console.log('object:', object);
+                        //         console.log('value:', value);
+                        //         return object.value;
+                        //     }
+
+                        //     var ans = getProp(res.drinks[0], ingredientString); 
+
+                        //     console.log(ans); 
+
+                        // }
+
+                        if (res.drinks[0].strIngredient1 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient1 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure1 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient2 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient2 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure2 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient3 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient3 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure3 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient4 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient4 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure4 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient5 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient5 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure5 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient6 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient6 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure6 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient7 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient7 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure7 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient8 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient8 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure8 + "</span></li>");
+                        }
+
+
+
+
+
+
+
+
+                        $('.drinkInstructions').html(res.drinks[0].strInstructions);
+
+
+                    },
+                    error: function(invalid) {
+                        console.log(invalid)
+                    }
+                });
+            });
+
+
+        },
+        error: function(invalid) {
+            console.log(invalid)
+        }
+    });
+}
+
+
+$('.no-alcohol').on('click', function() {
+    // console.log('alc-search')
+    callAPINonAlc();
+});
+
+
 // ================ END cocktail api stuff ========================
 
 // ================ START UI ======================
@@ -323,7 +448,7 @@ $(document.body).on('click', '.mood', function() {
     $("#drink-selection").show();
     if (count === 0) {
         $(".alcohol").hide();
-        $(".hide").hide();
+        $(".alc-search").hide();
     }
     mood = $(this).attr('data-genre-id');
     console.log('youve clicked', mood)
