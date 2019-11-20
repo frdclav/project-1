@@ -15,14 +15,15 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
-<body>
+<body class="#78909c blue-grey lighten-1">
     <!-- Navbar logo -->
 
-    <nav>
-        <div class="nav-wrapper">
+    <nav class="#263238 blue-grey darken-4">
+        <div class="nav-wrapper ">
             <a href="#" class="brand-logo center">Netflix & Chill</a>
             <!-- <ul id="nav-mobile" class="left hide-on-med-and-down">
           <li><a href="sass.html">Sass</a></li>
@@ -40,13 +41,14 @@
     <div class="row">
         <div class="col s2"></div>
         <div class="col s8 content" style="height: 0px;">
-            <div id="welcome" class="center-align  #eeeeee grey lighten-3" style="height: 500px;">
-                <h1>Welcome to Netfilx and Chill!</h1>
-                <p>Picture to make it look pretty and description of what app will do</p>
+            <div id="welcome" class="center-align z-depth-3" style="height: 500px; background: url(assets/images/young-men-seated-in-sofa-watching-tv-vector-24934019.jpg);">
+                <h1 style="padding: 20px 0px 60px 0px; font-family: 'Oswald', sans-serif;text-shadow: 2px 2px 2px rgb(22, 19, 19)">Welcome to Netfilx and Chill!</h1>
+                <h4 style="color:white;text-shadow: 2px 2px 8px rgb(22, 19, 19);font-family: 'Oswald', sans-serif;">Don't feel like going on a night out?</h4>
+                <h4 style="padding-bottom: 60px;color:white;text-shadow: 2px 2px 8px rgb(22, 19, 19);font-family: 'Oswald', sans-serif;">Bring the night out inside and invite your friends!</h4>
 
-                <p>STYLE ME</p>
+                
 
-                <button id="click-me" class="waves-effect waves-light btn-large">Get Started</button>
+                <button id="click-me" class="waves-effect waves-light btn-large #039be5 light-blue darken-1 z-depth-3" style="font-family: 'Oswald', sans-serif;text-shadow: 2px 2px 8px rgb(22, 19, 19);">Get Started</button>
             </div>
 
             <div class="col s2"></div>
@@ -124,6 +126,7 @@
                     <ul id="drinkNames"></ul>
                     <div class="drinkinfo">
                         <h3 class="drinkName"></h3>
+                        <!-- add class in image -->
                         <img class="drinkimage" src="" />
                         <ul class="drinkIngredients">
                         </ul>
@@ -135,7 +138,7 @@
         </div>
 
 
-        <footer class="page-footer bottom" style="position:fixed;bottom:0;left:0;width:100%;">
+        <footer class="page-footer bottom #263238 blue-grey darken-4" style="position:fixed;bottom:0;left:0;width:100%;">
             <p class="copyright center-align"> @Copyright 2019</p>
         </footer>
 
