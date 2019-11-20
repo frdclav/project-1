@@ -170,14 +170,11 @@ function callAPI() {
             $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
 
 
-            //this lists the five cocktails of the type of alcohol
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[2].idDrink + "'>" + res.drinks[2].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[3].idDrink + "'>" + res.drinks[3].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[4].idDrink + "'>" + res.drinks[4].strDrink + "</li>");
-
-
+            //this lists the five cocktails of the type of alcohol. Loops 5 times
+            for (let i = 0; i < 5; i++) {
+                $('#drinkNames').append("<li data-drinkid='" + res.drinks[i].idDrink + "'>" + res.drinks[i].strDrink + "</li>");
+            }
+            
             $('li').on('click', function() {
                 var drinkId = $(this).data('drinkid');
                 // console.log(drinkId);
@@ -195,21 +192,7 @@ function callAPI() {
 
                         $('.drinkIngredients').empty();
 
-                        // for (let i = 1; i <= 1; i++) {
-                        //     console.log('strIngredient'+[i]);
-                        //     var ingredientString = 'strIngredient'+[i];
-
-                        //     function getProp(object, value) { 
-                        //         console.log('object:', object);
-                        //         console.log('value:', value);
-                        //         return object.value;
-                        //     }
-
-                        //     var ans = getProp(res.drinks[0], ingredientString); 
-
-                        //     console.log(ans); 
-
-                        // }
+                       
 
                         if (res.drinks[0].strIngredient1 != null) {
                             $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient1 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure1 + "</span></li>");
@@ -277,8 +260,7 @@ $('.alc-search').on('click', function() {
 
 // ====non alc
 function callAPINonAlc() {
-    // var ingredient = $("#ingredientItem").val();
-    // console.log(ingredient);
+    
     var apiURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
     $('ul').empty('li')
 
@@ -288,19 +270,40 @@ function callAPINonAlc() {
         url: apiURL,
         //this is what will happen when a user request is a success
         success: function(res) {
-            console.log(res);
-
-            //this capitalizes the first letter and puts the name of alcohol on page
-            // $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
+            console.log('non alchoholic results:',res);
 
 
-            //this lists the five cocktails of the type of alcohol
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[2].idDrink + "'>" + res.drinks[2].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[3].idDrink + "'>" + res.drinks[3].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[4].idDrink + "'>" + res.drinks[4].strDrink + "</li>");
 
+            // randomize 5 non-alchoholic drinks and grab the length of the results
+            var randomArray = []; //empty container used for random number of drink index
+            var numberOfLoops = 5; //how many times to loop. Also number of drinks to list
+
+            for (let i = 0; i < numberOfLoops; i++) {// loop 5 times
+
+                //get random number for the length of the drinks listed in the res.drinks
+                var randomNumber = Math.round(Math.random() * (res.drinks.length - 1));
+                
+                // checks if the randomNumber variable exists in the randomArray. 
+                // indexOf(randomNumber) checks if that randomNumber exists inside of the randomArray. 
+                // If it doesn't, the value will be -1, meaning this will be true
+                if(randomArray.indexOf(randomNumber) == -1){ 
+
+                    randomArray.push(randomNumber); //push means it'll add randomNumber to randomArray 
+
+                    //this just adds that "randomNumber" index to the list-item (li) in the HTML
+                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'>" + res.drinks[randomNumber].strDrink + "</li>");
+                }else {
+                    // else if the randomNumber already exists inside of the randomArray, we increment the numberOfLoops by 1, so that we can do another loop
+                    numberOfLoops++;
+                    console.log('try loop again');
+                }
+                
+            }
+
+            
+
+
+            
 
             $('li').on('click', function() {
                 var drinkId = $(this).data('drinkid');
