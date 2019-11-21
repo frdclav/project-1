@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
-<body class="#78909c blue-grey lighten-1">
+<body style="background: url(assets/images/young-men-seated-in-sofa-watching-tv-vector2.jpg); background-size: cover;">
     <!-- Navbar logo -->
 
     <nav class="#263238 blue-grey darken-4">
@@ -41,14 +41,14 @@
     <div class="row">
         <div class="col s2"></div>
         <div class="col s8 content" style="height: 0px;">
-            <div id="welcome" class="center-align z-depth-3" style="height: 500px; background: url(assets/images/young-men-seated-in-sofa-watching-tv-vector-24934019.jpg);">
+            <div id="welcome" class="center-align z-depth-5" style="height: 500px; background: url(assets/images/young-men-seated-in-sofa-watching-tv-vector-24934019.jpg);">
                 <h1 style="padding: 20px 0px 60px 0px; font-family: 'Oswald', sans-serif;text-shadow: 2px 2px 2px rgb(22, 19, 19)">Welcome to Netfilx and Chill!</h1>
                 <h4 style="color:white;text-shadow: 2px 2px 8px rgb(22, 19, 19);font-family: 'Oswald', sans-serif;">Don't feel like going on a night out?</h4>
                 <h4 style="padding-bottom: 60px;color:white;text-shadow: 2px 2px 8px rgb(22, 19, 19);font-family: 'Oswald', sans-serif;">Bring the night out inside and invite your friends!</h4>
 
                 
 
-                <button id="click-me" class="waves-effect waves-light btn-large #039be5 light-blue darken-1 z-depth-3" style="font-family: 'Oswald', sans-serif;text-shadow: 2px 2px 8px rgb(22, 19, 19);">Get Started</button>
+                <button id="click-me" class="waves-effect waves-dark btn-large #039be5 light-blue darken-1" style="font-family: 'Oswald';">Get Started</button>
             </div>
 
             <div class="col s2"></div>
@@ -57,14 +57,17 @@
            
             <!-- Are you 21 and over? -->
            
-           <div id="of-age">
+           <div id="of-age" class="z-depth-5" style="height: 500px; background: url(assets/images/young-men-seated-in-sofa-watching-tv-vector-24934019.jpg)">
                    
-                        <div id="welcome" class="center-align  #eeeeee grey lighten-3 " style="height: 500px;">
-                            <h1 class="age" style="padding-top:200px;">Are you 21 or older?</h1>
+                        <div id="welcome" class="center-align">
+                            <h2 class="age" style="font-family: 'Oswald', sans-serif;">Are you 21 or older?</h2>
+                            <div>
+                            <img class="warning" src="assets/images/22-229128_warning-attention-road-sign-exclamation-mark-warning-icon.jpg">
+                            </div>
 
 
-                            <button id="yes" class="waves-effect waves-light btn-large">Yes</button>
-                            <button id="no" class="waves-effect waves-light btn-large">No</button>
+                            <button id="yes" class="btn-floating btn-large #039be5 light-blue darken-1 pulse" style="font-family: 'Oswald', sans-serif;">Yes</button>
+                            <button id="no" class=" btn-floating btn-large #039be5 light-blue darken-1 pulse" style="font-family: 'Oswald', sans-serif;">No</button>
                         </div>
                         
                     </div>
@@ -120,7 +123,7 @@
 
 
 
-                <div class="movie-options" class="  row container center-align  #eeeeee grey lighten-3"></div>
+                <div class="movie-options" class="row container center-align  #eeeeee grey lighten-3"></div>
                 <div class="drink-options" class="row container center-align  #eeeeee grey lighten-3">
                     <h2 id="drinkType"></h2>
                     <ul id="drinkNames"></ul>
