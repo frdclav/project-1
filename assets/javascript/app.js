@@ -172,7 +172,8 @@ function callAPI() {
 
             //this lists the five cocktails of the type of alcohol. Loops 5 times
             for (let i = 0; i < 5; i++) {
-                $('#drinkNames').append("<li data-drinkid='" + res.drinks[i].idDrink + "'>" + res.drinks[i].strDrink + "</li>");
+                console.log('here')
+                $('#drinkNames').append("<li data-drinkid='"+ res.drinks[i].idDrink + "'><a class='waves-effect waves-light btn-large center-align #039be5 light-blue darken-1'>" + res.drinks[i].strDrink +"</a></li>");
             }
             
             $('li').on('click', function() {
@@ -186,11 +187,13 @@ function callAPI() {
                     //this is what will happen when a user request is a success
                     success: function(res) {
                         console.log(res);
-
+                        
+                        
                         $('.drinkName').html(res.drinks[0].strDrink);
                         $('.drinkimage').attr('src', res.drinks[0].strDrinkThumb);
 
                         $('.drinkIngredients').empty();
+                        ;
 
                        
 
@@ -291,7 +294,7 @@ function callAPINonAlc() {
                     randomArray.push(randomNumber); //push means it'll add randomNumber to randomArray 
 
                     //this just adds that "randomNumber" index to the list-item (li) in the HTML
-                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'>" + res.drinks[randomNumber].strDrink + "</li>");
+                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'><a class='waves-effect waves-light btn-large center-align #039be5 light-blue darken-1'>" + res.drinks[randomNumber].strDrink + "</a></li>");
                 }else {
                     // else if the randomNumber already exists inside of the randomArray, we increment the numberOfLoops by 1, so that we can do another loop
                     numberOfLoops++;
@@ -452,13 +455,13 @@ function showMoods() {
     listOfCategories.forEach(element => {
         const newDiv = $("<div>");
         const newTitle = $("<a>");
-        newDiv.addClass('mood center-align row m2');
-        newTitle.addClass('waves-effect waves-light btn center-align');
+        newDiv.addClass('mood center-align');
+        newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
         newTitle.text(element[1]);
         newDiv.attr('data-genre-id', element[0]);
 
         newDiv.append(newTitle);
-        $("#movie-selection").append(newDiv);
+        $(".empty-container").append(newDiv);
     });
 }
 
@@ -468,12 +471,12 @@ function showFirePlaceMood() {
     const newDiv = $("<div>");
     const newTitle = $("<a>");
     newDiv.addClass('mood fireplace center-align row m2');
-    newTitle.addClass('waves-effect waves-light btn center-align');
+    newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
     newTitle.text('I just need some heat...');
     newDiv.attr('data-genre-id', 'fireplace');
 
     newDiv.append(newTitle);
-    $("#movie-selection").append(newDiv);
+    $(".empty-container").append(newDiv);
 }
 showFirePlaceMood()
     // helper function for decoding netflix strings:
