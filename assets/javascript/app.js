@@ -294,7 +294,7 @@ function callAPINonAlc() {
                     randomArray.push(randomNumber); //push means it'll add randomNumber to randomArray 
 
                     //this just adds that "randomNumber" index to the list-item (li) in the HTML
-                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'><a class='waves-effect waves-light btn-large center-align #039be5 light-blue darken-1'>" + res.drinks[randomNumber].strDrink + "</a></li>");
+                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'><a class='waves-effect waves-light btn-small center-align #039be5 light-blue darken-1'>" + res.drinks[randomNumber].strDrink + "</a></li>");
                 }else {
                     // else if the randomNumber already exists inside of the randomArray, we increment the numberOfLoops by 1, so that we can do another loop
                     numberOfLoops++;
@@ -459,7 +459,7 @@ function showMoods() {
         newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
         newTitle.text(element[1]);
         newDiv.attr('data-genre-id', element[0]);
-
+        newDiv.attr('style','font-family: Oswald,sans-serif');
         newDiv.append(newTitle);
         $(".empty-container").append(newDiv);
     });
@@ -474,6 +474,8 @@ function showFirePlaceMood() {
     newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
     newTitle.text('I just need some heat...');
     newDiv.attr('data-genre-id', 'fireplace');
+    newDiv.attr('style','font-family: Oswald,sans-serif');
+    
 
     newDiv.append(newTitle);
     $(".empty-container").append(newDiv);
