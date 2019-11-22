@@ -289,13 +289,13 @@ function showMoods() {
         const newDiv = $("<div>");
         const newTitle = $("<a>");
         newDiv.addClass('mood center-align row m2');
-        newTitle.addClass('waves-effect waves-light btn center-align');
+        newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
         newTitle.text(element[1]);
         newDiv.attr('data-genre-id', element[0]);
         // newDiv.attr('style', 'border:1px solid;width:200px');
 
         newDiv.append(newTitle);
-        $("#movie-selection").append(newDiv);
+        $(".empty-container").append(newDiv);
     });
 }
 
