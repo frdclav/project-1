@@ -31,13 +31,30 @@ function unogsQuery(searchTerm, genreId, vType, page) {
 
 //  function to pass in unogsQuery object and get back a list/array of 5 result objects
 
-function unogsGetResults(term, genre_id, vType) {
-    const query = new unogsQuery(term, genre_id, vType, '1');
-    const url = query.generateUrl();
-    const settings = {
+let netflix_results_arr = []
+
+function listOfRandomIndexes(length_of_array, length_of_result_array) {
+    var resultArr = [];
+    while (resultArr.length !== length_of_result_array) {
+        var randomNumber = Math.floor(Math.random() * length_of_array);
+        if (!resultArr.includes(randomNumber)) {
+            resultArr.push(randomNumber)
+        }
+    }
+    return resultArr
+}
+
+function getRandomNetflixResults(term, genre_id, vType, number_of_results) {
+    // add "Loading Netflix Results..." to page
+    $(".movie-options").text("Loading Netflix Suggestions...")
+
+    //  first get the count of result pages
+    const first_query = new unogsQuery(term, genre_id, vType, '1');
+    const first_url = first_query.generateUrl();
+    const first_settings = {
         "async": true,
         "crossDomain": true,
-        "url": url,
+        "url": first_url,
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "unogs-unogs-v1.p.rapidapi.com",
@@ -45,47 +62,66 @@ function unogsGetResults(term, genre_id, vType) {
         }
     };
 
-    $.ajax(settings).done(function(response) {
-            console.log(response);
-            let resArr = [];
-            for (let index = 0; index < 5; index++) {
-                const element = response.ITEMS[index];
-                console.log('item', index, element)
-                resArr.push(element)
-            }
-            resArr.forEach(element => {
-                addNetflixResult(element)
-            })
+    $.ajax(first_settings).done(function(response) {
+        const count_of_pages = response.COUNT
+        console.log(term, genre_id, vType, 'has this many counts:', count_of_pages)
+
+        //  then we want an array of random counts
+        const random_result_indexes = listOfRandomIndexes(count_of_pages, number_of_results)
+
+        // now we want a list of random netflix results
+        console.log('starting to generate list of actual results', random_result_indexes)
+
+        // create a helper function to run the actual search
+        function getNetflixResult(term, genre_id, vType, index_array, index_counter) {
+
+            const page = index_array[index_counter - 1] / 100
+            const query = new unogsQuery(term, genre_id, vType, page.toString());
+            // console.log(query)
+            const url = query.generateUrl();
+            // console.log(url)
+            const settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": url,
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "unogs-unogs-v1.p.rapidapi.com",
+                    "x-rapidapi-key": unogs_api_key
+                }
+            };
+            $.ajax(settings).done(function(response) {
+                    console.log(response)
+                    let res = response.ITEMS;
+                    console.log(res)
+                    const randomInd = Math.floor(Math.random() * res.length)
+                    netflix_results_arr.push(res[randomInd])
+                    const newIndexCounter = index_counter - 1
+                    if (newIndexCounter > 0) {
+                        getNetflixResult(term, genre_id, vType, index_array, newIndexCounter)
+                    } else {
+                        // add movies to page
+                        $(".movie-options").empty()
+                        netflix_results_arr.forEach(element => {
+                            addNetflixResult(element)
+                        });
+                    }
+                }
+
+
+            )
         }
+        getNetflixResult(term, genre_id, vType, random_result_indexes, random_result_indexes.length)
 
-    )
-};
 
-// console.log(unogsGetResults('', '6548', 'Any'))
 
-// getting the genre_ids
 
-// var settings = {
-//     "async": true,
-//     "crossDomain": true,
-//     "url": "https://unogs-unogs-v1.p.rapidapi.com/api.cgi?t=genres",
-//     "method": "GET",
-//     "headers": {
-//         "x-rapidapi-host": "unogs-unogs-v1.p.rapidapi.com",
-//         "x-rapidapi-key": "a928869491msh3c89ebc5d6b92d6p14d54ejsn41f57ef05b75"
-//     }
-// }
+    });
 
-// $.ajax(settings).done(function (response) {
-//     let resArr = response.ITEMS
-//         ;
-//     resArr.forEach(element => {
-//         const keyy = Object.keys(element)
-//         const ids = element[keyy]
-//         console.log(keyy, element[keyy])
 
-//     });
-// });
+}
+
+
 
 
 
@@ -133,13 +169,141 @@ function callAPI() {
             //this capitalizes the first letter and puts the name of alcohol on page
             $("#drinkType").html(ingredient.substr(0, 1).toUpperCase() + ingredient.substr(1));
 
-            //this lists the five cocktails of the type of alcohol
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[0].idDrink + "'>" + res.drinks[0].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[1].idDrink + "'>" + res.drinks[1].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[2].idDrink + "'>" + res.drinks[2].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[3].idDrink + "'>" + res.drinks[3].strDrink + "</li>");
-            $('#drinkNames').append("<li data-drinkid='" + res.drinks[4].idDrink + "'>" + res.drinks[4].strDrink + "</li>");
 
+            //this lists the five cocktails of the type of alcohol. Loops 5 times
+            for (let i = 0; i < 5; i++) {
+                $('#drinkNames').append("<li data-drinkid='" + res.drinks[i].idDrink + "'>" + res.drinks[i].strDrink + "</li>");
+            }
+            
+            $('li').on('click', function() {
+                var drinkId = $(this).data('drinkid');
+                // console.log(drinkId);
+
+                var ingredientsApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + drinkId + "";
+
+                $.ajax({
+                    url: ingredientsApiUrl,
+                    //this is what will happen when a user request is a success
+                    success: function(res) {
+                        console.log(res);
+
+                        $('.drinkName').html(res.drinks[0].strDrink);
+                        $('.drinkimage').attr('src', res.drinks[0].strDrinkThumb);
+
+                        $('.drinkIngredients').empty();
+
+                       
+
+                        if (res.drinks[0].strIngredient1 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient1 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure1 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient2 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient2 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure2 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient3 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient3 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure3 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient4 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient4 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure4 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient5 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient5 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure5 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient6 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient6 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure6 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient7 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient7 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure7 + "</span></li>");
+                        }
+
+                        if (res.drinks[0].strIngredient8 != null) {
+                            $('.drinkIngredients').append("<li><span class='strIngredient'>" + res.drinks[0].strIngredient8 + "</span> - <span class='strMeasure'>" + res.drinks[0].strMeasure8 + "</span></li>");
+                        }
+
+
+
+
+
+
+
+
+                        $('.drinkInstructions').html(res.drinks[0].strInstructions);
+
+
+                    },
+                    error: function(invalid) {
+                        console.log(invalid)
+                    }
+                });
+            });
+
+
+        },
+        error: function(invalid) {
+            console.log(invalid)
+        }
+    });
+}
+
+
+$('.alc-search').on('click', function() {
+    // console.log('alc-search')
+    callAPI();
+});
+
+
+// ====non alc
+function callAPINonAlc() {
+    
+    var apiURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
+    $('ul').empty('li')
+
+    // console.log("click")
+
+    $.ajax({
+        url: apiURL,
+        //this is what will happen when a user request is a success
+        success: function(res) {
+            console.log('non alchoholic results:',res);
+
+
+
+            // randomize 5 non-alchoholic drinks and grab the length of the results
+            var randomArray = []; //empty container used for random number of drink index
+            var numberOfLoops = 5; //how many times to loop. Also number of drinks to list
+
+            for (let i = 0; i < numberOfLoops; i++) {// loop 5 times
+
+                //get random number for the length of the drinks listed in the res.drinks
+                var randomNumber = Math.round(Math.random() * (res.drinks.length - 1));
+                
+                // checks if the randomNumber variable exists in the randomArray. 
+                // indexOf(randomNumber) checks if that randomNumber exists inside of the randomArray. 
+                // If it doesn't, the value will be -1, meaning this will be true
+                if(randomArray.indexOf(randomNumber) == -1){ 
+
+                    randomArray.push(randomNumber); //push means it'll add randomNumber to randomArray 
+
+                    //this just adds that "randomNumber" index to the list-item (li) in the HTML
+                    $('#drinkNames').append("<li data-drinkid='" + res.drinks[randomNumber].idDrink + "'>" + res.drinks[randomNumber].strDrink + "</li>");
+                }else {
+                    // else if the randomNumber already exists inside of the randomArray, we increment the numberOfLoops by 1, so that we can do another loop
+                    numberOfLoops++;
+                    console.log('try loop again');
+                }
+                
+            }
+
+            
+
+
+            
 
             $('li').on('click', function() {
                 var drinkId = $(this).data('drinkid');
@@ -232,9 +396,9 @@ function callAPI() {
 }
 
 
-$('.alc-search').on('click', function() {
+$('.no-alcohol').on('click', function() {
     // console.log('alc-search')
-    callAPI();
+    callAPINonAlc();
 });
 
 
@@ -292,7 +456,6 @@ function showMoods() {
         newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
         newTitle.text(element[1]);
         newDiv.attr('data-genre-id', element[0]);
-        // newDiv.attr('style', 'border:1px solid;width:200px');
 
         newDiv.append(newTitle);
         $(".empty-container").append(newDiv);
@@ -301,6 +464,25 @@ function showMoods() {
 
 showMoods();
 
+function showFirePlaceMood() {
+    const newDiv = $("<div>");
+    const newTitle = $("<a>");
+    newDiv.addClass('mood fireplace center-align row m2');
+    newTitle.addClass('waves-effect waves-light btn-large center-align #039be5 light-blue darken-1');
+    newTitle.text('I just need some heat...');
+    newDiv.attr('data-genre-id', 'fireplace');
+
+    newDiv.append(newTitle);
+    $(".empty-container").append(newDiv);
+}
+showFirePlaceMood()
+    // helper function for decoding netflix strings:
+function htmlDecode(input) {
+    var e = document.createElement('textarea');
+    e.innerHTML = input;
+    // handle case of empty input
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
 
 // function for adding movie div to #movie-options
 function addNetflixResult(nf_obj) {
@@ -310,24 +492,35 @@ function addNetflixResult(nf_obj) {
     const newDescription = $("<p>")
     newDiv.addClass('row container center-align m2')
     newDiv.attr('style', 'margin-left: auto !important;margin-right: auto !important')
-    newTitle.text(nf_obj.title)
+    newTitle.text(htmlDecode(nf_obj.title))
     newImage.attr('src', nf_obj.image)
     newImage.addClass('left')
-    newDescription.text(nf_obj.synopsis)
+    newDescription.text(htmlDecode(nf_obj.synopsis))
     newDiv.append(newTitle, newImage, newDescription)
     $(".movie-options").append(newDiv)
 }
+
 // mood listener
 $(document.body).on('click', '.mood', function() {
     $("#movie-selection").hide();
     $("#drink-selection").show();
     if (count === 0) {
         $(".alcohol").hide();
-        $(".hide").hide();
+        $(".alc-search").hide();
     }
     mood = $(this).attr('data-genre-id');
     console.log('youve clicked', mood)
-    unogsGetResults('', mood, 'Any')
+    if (mood === 'fireplace') {
+        var fireplaceObj = {
+            title: "Fireplace 4K: Crackling Birchwood from Fireplace for Your Home",
+            synopsis: "For the first time in 4K Ultra-HD, everyone&#39;s favorite Yuletide fireplace snaps and crackles in crystal clear, high-def holiday warmth.",
+            image: "https://occ-0-768-769.1.nflxso.net/dnm/api/v6/XsrytRUxks8BtTRf9HNlZkW2tvY/AAAABfyHawrcjvx4x1Rluqx-rlxnoM0imYIoixFYycaEqBpRxgFep2YrRWDpjzVnGBxG77z3_y8nz7jsAkl2TRmHzCNLjWtQ.jpg?r=c6d"
+        };
+        addNetflixResult(fireplaceObj)
+    } else {
+        getRandomNetflixResults('', mood, 'Any', 3)
+
+    }
 
 });
 
@@ -350,11 +543,13 @@ $(".alc-search").on("click", function(event) {
     //checking to see if user entered something in form
     if (!alcoholType) {
         Swal.fire('Please Enter an Alcohol Type')
+    } else {
+        $("#drink-selection").hide();
+        $("#choices").show();
     }
 
 
-    $("#drink-selection").hide();
-    $("#choices").show();
+
 
     //pick random alcoholic drinks for choices div via api with alcoholType var
 });
